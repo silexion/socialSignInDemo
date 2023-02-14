@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pontozz/api.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:pontozz/full_screen_image.dart';
-import 'package:pontozz/product_rating_view.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:toggle_switch/toggle_switch.dart';
@@ -34,11 +32,6 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
 
   final ImagePicker picker = ImagePicker();
   Map<int, String> criteriaOptions = new Map();
-
-  static const List<Widget> yesNoOptions = <Widget>[
-    Text('Igen'),
-    Text('Nem')
-  ];
 
   List<bool> selectedYesNoOptions = <bool>[true, false];
 
@@ -167,7 +160,6 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
   List<String> names = [];
 
   final _formKey = GlobalKey<FormState>();
-  bool _autovalidate = false;
 
   void showProduct(Product product) {
     setState(() {
@@ -255,10 +247,12 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                   SimpleFontelicoProgressDialog _dialog = SimpleFontelicoProgressDialog(context: context);
                   _dialog.show(message: 'A feltöltés folyamatban...', backgroundColor: Colors.black26);
 
-                  Future saveFuture = data.id != null ?
+                  print(globals.role);
+                  Future saveFuture = data.id != null && globals.role == "user" ?
                   widget.client.sendRating(
                       data
                   ) : widget.client.saveProduct(
+                      data.id!,
                       data.name!,
                       data.barcode!,
                       data.manufacturer!,
@@ -522,6 +516,9 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
             if(pattern != "")
               return await widget.client.manufacturerSearch(pattern);
             else return [];
+          },
+          noItemsFoundBuilder: (value) {
+            return Text("", style: TextStyle(height: 0),);
           },
           itemBuilder: (context, suggestion) {
             return ListTile(

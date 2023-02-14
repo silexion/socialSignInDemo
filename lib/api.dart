@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import "dart:convert";
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pontozz/api.dart';
 import 'package:retrofit/retrofit.dart';
 
 import 'constants.dart' as Constants;
@@ -40,6 +39,7 @@ abstract class RestClient {
   @POST("sendProductWithRating")
   @MultiPart()
   Future<ProductResponse> saveProduct(
+      @Part() int id,
       @Part() String name,
       @Part() String barcode,
       @Part() String manufacturer,

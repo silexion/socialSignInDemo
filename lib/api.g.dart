@@ -323,6 +323,7 @@ class _RestClient implements RestClient {
 
   @override
   Future<ProductResponse> saveProduct(
+    id,
     name,
     barcode,
     manufacturer,
@@ -337,6 +338,10 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
+    _data.fields.add(MapEntry(
+      'id',
+      id.toString(),
+    ));
     _data.fields.add(MapEntry(
       'name',
       name,
