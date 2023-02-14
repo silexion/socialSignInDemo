@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "352189617145",
+    "project_id": "pontozz",
+    "storage_bucket": "pontozz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352189617145:android:8322444e310984e4d9e328",
+        "android_client_info": {
+          "package_name": "com.parkmobil.rating"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352189617145-5ubkq6uod33auaon5gj1rthuppcb8kpd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.parkmobil.rating",
+            "certificate_hash": "bd0dea8eb6b564f0e023d3082aebdad163d90714"
+          }
+        },
+        {
+          "client_id": "352189617145-6trck7njhpm6ur4i2us42jc7q4aks5e1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.parkmobil.rating",
+            "certificate_hash": "313ee97726a27e32256beff30fb47e0906e6809b"
+          }
+        },
+        {
+          "client_id": "352189617145-ebtfaitd6aqc3jfhuda2aeee89afin8b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.parkmobil.rating",
+            "certificate_hash": "5b3ee144acd6a867facac7a2a816792a07961f40"
+          }
+        },
+        {
+          "client_id": "352189617145-jodlj1n6bp8fbpdgod4o3f0bn3kfl8gn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq8Xp8G4QTQl68EZ2TVSWm_9Y8VUZC-Xk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352189617145-jodlj1n6bp8fbpdgod4o3f0bn3kfl8gn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Social Login Example</string>
+
+    <string name="facebook_app_id">1398168583987782</string>
+    <string name="facebook_client_token">0e93c94cace18dd3ce049e306d1267c2</string>
+    <string name="fb_login_protocol_scheme">fb1647245462122331</string>
+
+
+
+</resources>
