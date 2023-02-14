@@ -213,13 +213,18 @@ class _SearchWidgetState extends State<SearchWidget> {
               ),
             ),
             IconButton(icon: Icon(Icons.camera, size: 30), onPressed: () async {
-              Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+              /*Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                   "#000000",
                   "Mégse",
                   true,
-                  ScanMode.DEFAULT);
+                  ScanMode.DEFAULT);*/
+              String barcode = await FlutterBarcodeScanner.scanBarcode(
+                  "#000000",
+                  "Mégse",
+                  true,
+                  ScanMode.DEFAULT );
   
-              var barcode = barcodeScanRes["data"].toString();
+              //var barcode = barcodeScanRes["data"].toString();
               barcodeController.text = "";
               if(barcode.length > 0) {
 

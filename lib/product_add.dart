@@ -319,21 +319,26 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
             },*/
           )),
           IconButton(icon: Icon(Icons.camera, size: 30), onPressed: () async {
-            Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+            /*Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                "#000000",
+                "Mégse",
+                true,
+                ScanMode.DEFAULT );*/
+            String barcode = await FlutterBarcodeScanner.scanBarcode(
                 "#000000",
                 "Mégse",
                 true,
                 ScanMode.DEFAULT );
 
-            var barcode = barcodeScanRes["data"].toString();
-            var type = barcodeScanRes["type"].toString();
+            //var barcode = barcodeScanRes["data"].toString();
+            //var type = barcodeScanRes["type"].toString();
             barcodeController.text = barcode;
             if(barcode.length > 0) {
               widget.client.getProductByBarcode(barcode).then((product) {
                 showProduct(product);
               }, onError: (error, stackTrace) {
                 setState(() {
-                  countryController.text = globals.countryFromBArcode(barcode, type);
+                  countryController.text = globals.countryFromBArcode(barcode, "type");
                 });
               }) ;
             }
