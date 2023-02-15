@@ -47,6 +47,7 @@ void main() async {
       version: "v13.0",
     );
   }
+
   //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(MyApp());

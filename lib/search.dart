@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -213,7 +212,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               ),
             ),
             IconButton(icon: Icon(Icons.camera, size: 30), onPressed: () async {
-              Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+              /*Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                   "#000000",
                   "Mégse",
                   true,
@@ -236,7 +235,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                     //countryController.text = globals.countryFromBArcode(barcode, type);
                   });
                 }) ;
-              }
+              }*/
             })
             ]
            )
