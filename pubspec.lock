@@ -439,10 +439,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_typeahead
-      sha256: "9ed8fe6412ba4c1196c0cada258f476b42361d59e3c831e406ce263ba229ec1d"
+      sha256: "73eb76fa640ea630e2d957e7b469ab2b91e4da6c4950d6032fab7009275637b7"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.2"
+    version: "4.3.3"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1016,6 +1016,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
+  simple_barcode_scanner:
+    dependency: "direct main"
+    description:
+      name: simple_barcode_scanner
+      sha256: "2549a5a1426e2e3edb4fa2cd876fcf8463e09220cd36b5207742bc53e1d10fa6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.8"
   simple_fontellico_progress_dialog:
     dependency: "direct main"
     description:
@@ -1213,6 +1221,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  webview_windows:
+    dependency: transitive
+    description:
+      name: webview_windows
+      sha256: a6d76f9f020e638c2e5417f473e2907c097d1fe3eac8bd4be7517bc3a0df6b86
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   win32:
     dependency: transitive
     description:
@@ -1246,5 +1262,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <4.0.0"
+  dart: ">=2.19.0 <3.0.0"
   flutter: ">=3.3.0"

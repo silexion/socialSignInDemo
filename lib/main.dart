@@ -18,14 +18,12 @@ import 'package:pontozz/search.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
-import 'package:logger/logger.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'constants.dart' as Constants;
 import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
 import 'package:event_bus/event_bus.dart';
 import 'events.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 EventBus eventBus = EventBus();
 
@@ -48,6 +46,7 @@ void main() async {
     );
   }
 
+  WidgetsFlutterBinding.ensureInitialized();
   //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(MyApp());

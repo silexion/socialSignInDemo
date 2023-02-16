@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 String role = "user";
 
 String countryFromBArcode(String barcode, String type) {

@@ -5,7 +5,7 @@ description: Termékek értékelése
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.2.2+22
+version: 1.2.3+23
 
 environment:
   sdk: '>=2.14.0 <3.0.0'
@@ -42,12 +42,13 @@ dependencies:
     #  url: https://github.com/appsol1/flutter_barcode_scanner
      # ref: master
   flutter_cache_manager: ^3.3.0
-  flutter_typeahead: ^4.3.1
+  flutter_typeahead: ^4.3.3
   flutter_svg: ^1.1.6
   infinite_scroll_pagination: ^3.2.0
   magic_text: ^0.0.2
   flutter_native_splash: ^2.2.16
   flutter_barcode_scanner: ^2.0.0
+  simple_barcode_scanner: ^0.0.8
 
 dev_dependencies:
   build_runner: any

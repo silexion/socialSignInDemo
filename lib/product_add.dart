@@ -11,6 +11,7 @@ import 'package:pontozz/api.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:pontozz/barcode_scanner.dart';
 import 'package:pontozz/full_screen_image.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:toggle_switch/toggle_switch.dart';
@@ -330,24 +331,40 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                 "Mégse",
                 true,
                 ScanMode.DEFAULT );*/
-                            String barcode = await FlutterBarcodeScanner.scanBarcode(
+
+                            var res = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SimpleBarcodeScannerPage(),
+                                ));
+                            setState(() {
+                              if (res is String) {
+                                String barcode = res;
+
+
+                                /*            String barcode = await FlutterBarcodeScanner.scanBarcode(
                 "#000000",
                 "Mégse",
                 true,
-                ScanMode.DEFAULT );
+                ScanMode.DEFAULT );*/
 
-            //var barcode = barcodeScanRes["data"].toString();
-            //var type = barcodeScanRes["type"].toString();
-            barcodeController.text = barcode;
-            if(barcode.length > 0) {
-              widget.client.getProductByBarcode(barcode).then((product) {
-                showProduct(product);
-              }, onError: (error, stackTrace) {
-                setState(() {
-                  countryController.text = globals.countryFromBArcode(barcode, "type");
-                });
-              }) ;
-            }
+                                //var barcode = barcodeScanRes["data"].toString();
+                                //var type = barcodeScanRes["type"].toString();
+                                barcodeController.text = barcode;
+                                if (barcode.length > 0) {
+                                  widget.client.getProductByBarcode(barcode)
+                                      .then((product) {
+                                    showProduct(product);
+                                  }, onError: (error, stackTrace) {
+                                    setState(() {
+                                      countryController.text =
+                                          globals.countryFromBArcode(
+                                              barcode, "type");
+                                    });
+                                  });
+                                }
+                              }
+                            });
                           })
                         ]
                     ),

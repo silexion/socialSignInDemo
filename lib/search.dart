@@ -9,9 +9,11 @@ import 'package:pontozz/api.dart';
 import 'package:pontozz/full_screen_image.dart';
 import 'package:pontozz/product_rating_view.dart';
 import 'package:pontozz/review_item.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'constants.dart' as Constants;
 import 'globals.dart' as globals;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SearchWidget extends StatefulWidget {
   const SearchWidget({Key? key, required this.client}) : super(key: key);
@@ -217,31 +219,41 @@ class _SearchWidgetState extends State<SearchWidget> {
                   "#000000",
                   "Mégse",
                   true,
-                  ScanMode.DEFAULT);*/
+                  ScanMode.DEFAULT);
+
               String barcode = await FlutterBarcodeScanner.scanBarcode(
                   "#000000",
                   "Mégse",
                   true,
-                  ScanMode.DEFAULT );
-  
-              //var barcode = barcodeScanRes["data"].toString();
-              barcodeController.text = "";
-              if(barcode.length > 0) {
+                  ScanMode.DEFAULT );*/
+              var res = await Navigator.push(
+              context,
+                MaterialPageRoute(
+                builder: (context) => const SimpleBarcodeScannerPage(),
+                ));
+                setState(() {
+                  if (res is String) {
+                    String barcode = res;
 
-                _dialog.show(message: 'Betöltés...', backgroundColor: Colors.black26);
+                    //var barcode = barcodeScanRes["data"].toString();
+                    barcodeController.text = "";
+                    if(barcode.length > 0) {
 
-                widget.client.getProductByBarcode(barcode).then((product) {
-                  setState(() {
-                    this.product = product;
-                    _dialog.hide();
-                  });
-                }, onError: (error, stackTrace) {
-                  setState(() {
-                    _dialog.hide();
-                    //countryController.text = globals.countryFromBArcode(barcode, type);
-                  });
-                }) ;
-              }
+                    _dialog.show(message: 'Betöltés...', backgroundColor: Colors.black26);
+
+                    widget.client.getProductByBarcode(barcode).then((product) {
+                      setState(() {
+                        this.product = product;
+                        _dialog.hide();
+                      });
+                    }, onError: (error, stackTrace) {
+                      setState(() {
+                        _dialog.hide();
+                      //countryController.text = globals.countryFromBArcode(barcode, type);
+                      });
+                    }) ;
+                    }
+              }});
             })
             ]
            )
