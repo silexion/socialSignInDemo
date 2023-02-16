@@ -17,7 +17,6 @@ import 'package:pontozz/product_rating_view.dart';
 import 'package:pontozz/search.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'constants.dart' as Constants;
@@ -61,7 +60,7 @@ class MyHttpOverrides extends HttpOverrides{
 }
 
 class MyApp extends StatelessWidget {
-  final plugin = FacebookLogin(debug: true);
+  //final plugin = FacebookLogin(debug: true);
 
   @override
   Widget build(BuildContext context) {
@@ -141,15 +140,15 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MyHomePage(title: '', plugin: plugin),
+      home: MyHomePage(title: ''/*, plugin: plugin*/),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  final FacebookLogin plugin;
+  //final FacebookLogin plugin;
 
-  MyHomePage({Key? key, required this.title, required this.plugin}) : super(key: key);
+  MyHomePage({Key? key, required this.title/*, required this.plugin*/}) : super(key: key);
 
   final String title;
 
@@ -298,7 +297,7 @@ class ItemState extends State<Item> {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static final FacebookLogin facebookSignIn = new FacebookLogin();
+  //static final FacebookLogin facebookSignIn = new FacebookLogin();
   late GoogleSignInAccount? _currentUser;
   String? token;
   late String provider;
@@ -307,8 +306,8 @@ class _MyHomePageState extends State<MyHomePage> {
   late RestClient client;
   ScrollController _controller = ScrollController(initialScrollOffset: 0.0, keepScrollOffset: true);
   String? _sdkVersion;
-  FacebookAccessToken? _token;
-  FacebookUserProfile? _profile;
+  //FacebookAccessToken? _token;
+  //FacebookUserProfile? _profile;
   String? _email;
   String? _imageUrl;
   late List<Product> loaded;
@@ -490,10 +489,10 @@ class _MyHomePageState extends State<MyHomePage> {
         print(result.message);
       }
     } else {
-      await widget.plugin.logIn(permissions: [
+      /*await widget.plugin.logIn(permissions: [
         FacebookPermission.publicProfile,
         FacebookPermission.email,
-      ]);
+      ]);*/
     }
     await _updateLoginInfo();
   }
@@ -511,16 +510,16 @@ class _MyHomePageState extends State<MyHomePage> {
     print("LOGOUT");
     client.logout();
 
-    if(provider == "google")
+    //if(provider == "google")
       return _googleSignIn.signOut();
-    else
-      return facebookSignIn.logOut();
+    /*else
+      return facebookSignIn.logOut();*/
   }
 
   Future<void> _updateLoginInfo() async {
-    final plugin = widget.plugin;
+    /*final plugin = widget.plugin;
     final token = await plugin.accessToken;
-    FacebookUserProfile? profile;
+    //FacebookUserProfile? profile;
     String? email;
     String? imageUrl;
 
@@ -542,7 +541,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _profile = profile;
       _email = email;
       _imageUrl = imageUrl;
-    });
+    });*/
   }
 
 

@@ -287,7 +287,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_barcode_scanner:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_barcode_scanner
       sha256: a4ba37daf9933f451a5e812c753ddd045d6354e4a3280342d895b07fecaab3fa
@@ -390,14 +390,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3"
-  flutter_login_facebook:
-    dependency: "direct main"
-    description:
-      name: flutter_login_facebook
-      sha256: "340595d5a386dde1695f31944993eff200ffc6c3d17ff76fa6c1283b6374c250"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.7.0"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -640,14 +632,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.0"
-  list_ext:
-    dependency: transitive
-    description:
-      name: list_ext
-      sha256: a38869a6911830f39ace7534972d01e573e17917955b26215e54d5797eb8d5cd
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.6"
   logger:
     dependency: "direct main"
     description:

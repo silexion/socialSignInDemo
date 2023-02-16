@@ -26,7 +26,6 @@ dependencies:
   transparent_image: ^2.0.0
   flutter_rating_bar: ^4.0.0
   flutter_launcher_icons: ^0.9.2
-  flutter_login_facebook: ^1.4.1
   flutter_facebook_auth: ^4.3.2
   fluttertoast: ^8.0.9
   toggle_switch: ^2.0.1
@@ -47,7 +46,6 @@ dependencies:
   infinite_scroll_pagination: ^3.2.0
   magic_text: ^0.0.2
   flutter_native_splash: ^2.2.16
-  flutter_barcode_scanner: ^2.0.0
   simple_barcode_scanner: ^0.0.8
 
 dev_dependencies:
