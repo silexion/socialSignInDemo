@@ -47,5 +47,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>Camera permission is required for barcode scanning.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Photo library usage permission is required for uploading images.</string>
 </dict>
 </plist>
