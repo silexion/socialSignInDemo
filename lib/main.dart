@@ -309,7 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //FacebookAccessToken? _token;
   //FacebookUserProfile? _profile;
   String? _email;
-  String? _imageUrl;
+
   late List<Product> loaded;
 
   void apiLogin() {
@@ -473,27 +473,22 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Null> _loginFBPressed() async {
-    if(kIsWeb) {
-      final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
-// or FacebookAuth.i.login()
-      if (result.status == LoginStatus.success) {
-        // you are logged
-        final AccessToken accessToken = result.accessToken!;
-        setState(() {
-          provider = "facebook";
-          this.token = accessToken.token;
-        });
-        apiLogin();
-      } else {
-        print(result.status);
-        print(result.message);
-      }
+
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+
+    if (result.status == LoginStatus.success) {
+      // you are logged
+      final AccessToken accessToken = result.accessToken!;
+      setState(() {
+        provider = "facebook";
+        this.token = accessToken.token;
+      });
+      apiLogin();
     } else {
-      /*await widget.plugin.logIn(permissions: [
-        FacebookPermission.publicProfile,
-        FacebookPermission.email,
-      ]);*/
+      print(result.status);
+      print(result.message);
     }
+
     await _updateLoginInfo();
   }
 
@@ -517,31 +512,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _updateLoginInfo() async {
-    /*final plugin = widget.plugin;
-    final token = await plugin.accessToken;
-    //FacebookUserProfile? profile;
-    String? email;
-    String? imageUrl;
-
-    if (token != null) {
-      profile = await plugin.getUserProfile();
-      if (token.permissions.contains(FacebookPermission.email.name)) {
-        email = await plugin.getUserEmail();
-      }
-      imageUrl = await plugin.getProfileImageUrl(width: 100);
-      setState(() {
-        _token = token;
-        provider = "facebook";
-        this.token = token.token;
-      });
-      apiLogin();
-    }
+    final userData = await FacebookAuth.instance.getUserData();
 
     setState(() {
-      _profile = profile;
-      _email = email;
-      _imageUrl = imageUrl;
-    });*/
+      _email = userData["email"];
+    });
   }
 
 
