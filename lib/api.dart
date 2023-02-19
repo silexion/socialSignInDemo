@@ -39,7 +39,7 @@ abstract class RestClient {
   @POST("sendProductWithRating")
   @MultiPart()
   Future<ProductResponse> saveProduct(
-      @Part() int id,
+      @Part() int? id,
       @Part() String name,
       @Part() String barcode,
       @Part() String manufacturer,

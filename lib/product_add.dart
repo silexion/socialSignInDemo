@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -9,7 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pontozz/api.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:pontozz/barcode_scanner.dart';
 import 'package:pontozz/full_screen_image.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
@@ -254,7 +252,7 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                 widget.client.sendRating(
                     data
                 ) : widget.client.saveProduct(
-                    data.id!,
+                    data.id,
                     data.name!,
                     data.barcode!,
                     data.manufacturer!,
