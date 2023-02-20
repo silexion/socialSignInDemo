@@ -1,6 +1,5 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pontozz/api.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -9,19 +8,18 @@ import 'package:pontozz/full_screen_image.dart';
 import 'package:pontozz/main.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'constants.dart' as Constants;
 import 'api.dart' as Api;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ProductRatingView extends StatefulWidget {
-  const ProductRatingView({Key? key, required this.data, required this.pageController, required this.client, required this.updateProduct, required this.prevProduct}) : super(key: key);
+  const ProductRatingView({Key? key, required this.data, this.pageController, required this.client, required this.updateProduct,  this.prevProduct}) : super(key: key);
 
   final Product data;
   final RestClient client;
-  final PreloadPageController pageController;
+  final PreloadPageController? pageController;
   final Function(Product p) updateProduct;
-  final Function(int i) prevProduct;
+  final Function(int i)? prevProduct;
 
   @override
   State<StatefulWidget> createState() {
@@ -193,7 +191,7 @@ class ProductRatingViewState extends State<ProductRatingView> {
                           size: 30.0,
                         ),
                         onPressed: () {
-                          widget.pageController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
+                          widget.pageController?.previousPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
 
                           //widget.prevProduct(1);
                         }),
@@ -223,8 +221,17 @@ class ProductRatingViewState extends State<ProductRatingView> {
                           widget.client.sendRating(widget.data).then((value) {
                             //Navigator.of(context).pop();
                             setState(() {
-                              eventBus.fire(UpdateItemEvent(widget.data, widget.pageController.page!.toInt()));
-                              widget.pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
+                              if (widget.pageController != null) {
+                                eventBus.fire(UpdateItemEvent(widget.data,
+                                    widget.pageController!.page!.toInt()));
+                                widget.pageController?.nextPage(
+                                    duration: Duration(milliseconds: 300),
+                                    curve: Curves.ease);
+                              } else {
+                                widget.data.overall = value.overall;
+                                eventBus.fire(UpdateItemEvent(widget.data, 0));
+                                Navigator.of(context).pop();
+                              }
                             });
 
                           });

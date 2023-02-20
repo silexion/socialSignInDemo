@@ -47,6 +47,21 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+    <array>
+    	<dict>
+    		<key>CFBundleTypeRole</key>
+    		<string>Editor</string>
+    		<key>CFBundleURLSchemes</key>
+    		<array>
+    			<!-- TODO Replace this value: -->
+    			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+    			<string>com.googleusercontent.apps.352189617145-sqoq2uj8qe5t1dibimkej94s3i94j259</string>
+    		</array>
+    	</dict>
+    </array>
+	<key>SERVER_CLIENT_ID</key>
+    <string>352189617145-jodlj1n6bp8fbpdgod4o3f0bn3kfl8gn.apps.googleusercontent.com</string>
 	<key>NSCameraUsageDescription</key>
     <string>Camera permission is required for barcode scanning.</string>
     <key>NSPhotoLibraryUsageDescription</key>

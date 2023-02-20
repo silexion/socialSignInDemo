@@ -128,12 +128,14 @@ ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
     ProductResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
+      overall: json['overall'] as String?,
     );
 
 Map<String, dynamic> _$ProductResponseToJson(ProductResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
       'success': instance.success,
+      'overall': instance.overall,
     };
 
 // **************************************************************************

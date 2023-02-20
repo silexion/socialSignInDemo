@@ -195,8 +195,9 @@ class Review {
 class ProductResponse {
   late String message;
   late bool success;
+  late String? overall;
 
-  ProductResponse({required this.success, required this.message});
+  ProductResponse({required this.success, required this.message, this.overall});
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) => _$ProductResponseFromJson(json);
 
