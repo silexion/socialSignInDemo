@@ -460,6 +460,7 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                       child:
                       TypeAheadFormField(
                         textFieldConfiguration: TextFieldConfiguration(
+                          maxLength: 100,
                           style: TextStyle(color: Color(0xFFd2ac67)),
                           controller: nameController,
                           decoration: InputDecoration(
