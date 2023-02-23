@@ -11,6 +11,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'constants.dart' as Constants;
 import 'api.dart' as Api;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'events.dart';
 
 class ProductRatingView extends StatefulWidget {
   const ProductRatingView({Key? key, required this.data, this.pageController, required this.client, required this.updateProduct,  this.prevProduct}) : super(key: key);
@@ -32,6 +33,7 @@ class ProductRatingView extends StatefulWidget {
 
 class ProductRatingViewState extends State<ProductRatingView> {
   Map<int, String> criteriaOptions = new Map();
+  final reviewController = TextEditingController();
 
   Widget getRatingViews(List<Criteria> criterias)
   {
@@ -87,6 +89,10 @@ class ProductRatingViewState extends State<ProductRatingView> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      if (widget.data.review != null)
+        reviewController.text = widget.data.review.toString();
+    });
 
   }
 
@@ -156,7 +162,7 @@ class ProductRatingViewState extends State<ProductRatingView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  getRatingViews(widget.data.criterias),
+                  getRatingViews(widget.data.category != null ? widget.data.category!.criterias! : widget.data.criterias!),
                   SizedBox(height: 15),
                   Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -168,7 +174,7 @@ class ProductRatingViewState extends State<ProductRatingView> {
                           activeFgColor: Color(0xFFd2ac67),
                           activeBgColor: [Colors.black45],
                           inactiveBgColor: Colors.black45,
-                          initialLabelIndex: widget.data.ratingInfo[1] == "1" ? 0 : 1,
+                          initialLabelIndex: widget.data.ratingInfo['1'] == '1' ? 0 : 1,
                           totalSwitches: 2,
                           labels: ['Igen', 'Nem'],
                           onToggle: (index) {
@@ -178,23 +184,42 @@ class ProductRatingViewState extends State<ProductRatingView> {
                         ]
                       )
                   ),
+                  SizedBox(height: 10),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child:
+                    TextFormField(
+                      maxLines: 2,
+                      controller: reviewController,
+                      style: TextStyle(color: Color(0xFFd2ac67)),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Vélemény',
+                      ),
+                  )),
                   SizedBox(height: 15),
                   Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child:
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                      ElevatedButton.icon(style: ElevatedButton.styleFrom(padding: EdgeInsets.fromLTRB(25, 10, 25, 10)),
-                        label: Text('Előző'),
-                        icon: Icon(
-                          Icons.chevron_left,
-                          color: Colors.white,
-                          size: 30.0,
-                        ),
-                        onPressed: () {
-                          widget.pageController?.previousPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
+                      widget.pageController != null ?
+                        ElevatedButton.icon(style: ElevatedButton.styleFrom(padding: EdgeInsets.fromLTRB(25, 10, 25, 10)),
+                          label: Text('Előző'),
+                          icon: Icon(
+                            Icons.chevron_left,
+                            color: Colors.white,
+                            size: 30.0,
+                          ),
+                          onPressed: () {
+                            widget.pageController?.previousPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
 
-                          //widget.prevProduct(1);
-                        }),
+                            //widget.prevProduct(1);
+                          }) :
+                      ElevatedButton(style: ElevatedButton.styleFrom(padding: EdgeInsets.fromLTRB(25, 10, 25, 10)),
+                          child: Text('Mégse'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
                       ElevatedButton.icon(style: ElevatedButton.styleFrom(surfaceTintColor: Colors.indigoAccent, padding: EdgeInsets.fromLTRB(25, 10, 25, 10)),
                         label: Text('Küldés'),
                         icon: Icon(
@@ -203,7 +228,7 @@ class ProductRatingViewState extends State<ProductRatingView> {
                           size: 30.0,
                         ),
                         onPressed: () {
-                          for(var criteria in widget.data.criterias) {
+                          for(var criteria in widget.data.category!.criterias) {
                             if(!widget.data.ratings.containsKey(criteria.id.toString())) {
                               Fluttertoast.showToast(
                                   msg: "Nem adtad meg az összes értékelést.",
@@ -218,6 +243,7 @@ class ProductRatingViewState extends State<ProductRatingView> {
                             }
                           }
 
+                          widget.data.review = reviewController.text.toString();
                           widget.client.sendRating(widget.data).then((value) {
                             //Navigator.of(context).pop();
                             setState(() {

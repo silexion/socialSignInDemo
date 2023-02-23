@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pontozz/api.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:pontozz/full_screen_image.dart';
+import 'package:pontozz/product_rating_view.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -106,7 +107,6 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       categories = getCategories();
@@ -154,7 +154,8 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
   final nameController = TextEditingController();
   final manufacturerController = TextEditingController();
   final countryController = TextEditingController();
-  final noteController = TextEditingController();
+  final reviewController = TextEditingController();
+  final descriptionController = TextEditingController();
   final barcodeController = TextEditingController();
   var readOnly = false;
   List<String> names = [];
@@ -169,6 +170,7 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
       data.image = product.image;
       data.category = product.category as Category;
       data.category_id = product.category!.id;
+      data.review = product.review;
 
       if(globals.role != 'admin') readOnly = true;
     });
@@ -189,7 +191,7 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
       countryController.text = product.country!;
 
     if(product.description != null)
-      noteController.text = product.description!;
+      reviewController.text = product.description!;
   }
 
   @override
@@ -210,7 +212,7 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
           child: ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                for (var criteria in data.criterias) {
+                /*for (var criteria in data.category!.criterias) {
                   if (!data.ratings.containsKey(criteria.id.toString())) {
                     Fluttertoast.showToast(
                         msg: "Nem adtad meg az összes értékelést.",
@@ -223,7 +225,7 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                     );
                     return;
                   }
-                }
+                }*/
 
                 if (image == null) {
                   Fluttertoast.showToast(
@@ -240,58 +242,105 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
 
                 data.name = nameController.text.toString();
                 data.manufacturer = manufacturerController.text.toString();
-                data.description = noteController.text.toString();
+                data.description = reviewController.text.toString();
                 data.country = countryController.text.toString();
                 data.barcode = barcodeController.text.toString();
 
                 SimpleFontelicoProgressDialog _dialog = SimpleFontelicoProgressDialog(context: context);
-                _dialog.show(message: 'A feltöltés folyamatban...', backgroundColor: Colors.black26);
 
-                print(globals.role);
-                Future saveFuture = data.id != null && globals.role == "user" ?
-                widget.client.sendRating(
-                    data
-                ) : widget.client.saveProduct(
-                    data.id,
-                    data.name!,
-                    data.barcode!,
-                    data.manufacturer!,
-                    data.description!,
-                    data.country!,
-                    data.ratings,
-                    data.ratingInfo,
-                    data.category_id!,
-                    File(image!.path)
-                );
+                if(globals.role == "user" && data.id != null) {
 
-                saveFuture.then((value) {
-                  _dialog.hide();
-                  if(value.success) {
-                    Fluttertoast.showToast(
-                        msg: value.message,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.teal,
-                        textColor: Colors.white,
-                        fontSize: 16.0
-                    );
-                    Navigator.of(context).pop();
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: value.message,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.deepOrange,
-                        textColor: Colors.white,
-                        fontSize: 16.0
-                    );
+                  Navigator.of(context).pop();
+                  Future.delayed(Duration.zero, () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) =>
+                            ProductRatingView(
+                              data: data, client: widget.client, pageController: null, updateProduct: (Product p) {  },
+                            )
+                        ));
+                  });
+                } else {
+                  _dialog.show(message: 'A feltöltés folyamatban...', backgroundColor: Colors.black26);
+                  Future<ProductResponse> saveFuture = /*data.id != null && globals.role == "user" ?
+                  widget.client.sendRating(
+                      data
+                  ) : */
+                  widget.client.saveProduct(
+                      data.id,
+                      data.name!,
+                      data.barcode!,
+                      data.manufacturer!,
+                      data.description!,
+                      //data.review,
+                      data.country!,
+                      data.ratings,
+                      data.ratingInfo,
+                      data.category_id!,
+                      File(image!.path)
+                  );
+
+                  saveFuture.then((value) async {
+                    print(value.product);
+                    _dialog.hide();
+                    if(value.success) {
+                      await showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext ctx) {
+                          return AlertDialog(
+                            content: Text('A termék sikeresen beküldve. Értékeled most?'),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                child: const Text('Igen'),
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                  Future.delayed(Duration.zero, () {
+                                    Navigator.push(ctx,
+                                        MaterialPageRoute(builder: (context) =>
+                                            ProductRatingView(
+                                              data: value.product!, client: widget.client, pageController: null, updateProduct: (Product p) {  },
+                                            )
+                                        ));
+                                  });
+
+                                },
+                              ),
+                              ElevatedButton(
+                                child: const Text('Nem'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      /*Fluttertoast.showToast(
+                          msg: value.message,
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.teal,
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );*/
+                      Navigator.of(context).pop();
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: value.message,
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.deepOrange,
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );
+                    }
+                  });
                   }
-                });
               }
             },
-            child: Text('Küldés'),
+            child: Text(globals.role == "user" && data.id != null ? 'Értékelem' : 'Küldés'),
           ),
         ),
         body: SingleChildScrollView(child: Padding(
@@ -465,21 +514,16 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                         future: categories,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-
                             return new IgnorePointer(
                                 ignoring: readOnly,
                                 child: DropdownButtonFormField2(
                                   //buttonPadding: EdgeInsets.only(left: 14, right: 14),
                                   decoration: InputDecoration(
-                                    //Add isDense true and zero Padding.
-                                    //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
                                     isDense: true,
                                     contentPadding: EdgeInsets.zero,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(5),
                                     ),
-                                    //Add more decoration as you want here
-                                    //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                                   ),
                                   validator: (value) => value == null ? 'kötelező megadni' : null,
                                   isExpanded: true,
@@ -521,7 +565,12 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                           } else if (snapshot.hasError) {
                             return Text("${snapshot.error}");
                           }
-                          return CircularProgressIndicator();
+                          return TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Kategória',
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -570,47 +619,20 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                     SizedBox(height: 10),
                     TextFormField(
                       maxLines: 2,
-                      controller: noteController,
+                      controller: descriptionController,
                       style: TextStyle(color: Color(0xFFd2ac67)),
+                      readOnly: readOnly,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: 'Vélemény',
+                        hintText: 'Leírás',
                       ),
                     ),
                     SizedBox(height: 10),
-                    Padding(
+                   /* Padding(
                         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child:
                         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                           Text("Vennéd?", style: Theme.of(context).textTheme.labelMedium),
-                          /* ToggleButtons(
-                direction: Axis.horizontal,
-                onPressed: (int index) {
-                  setState(() {
-                    // The button that is tapped is set to true, and the others to false.
-                    /*for (int i = 0; i < _selectedFruits.length; i++) {
-                      _selectedFruits[i] = i == index;
-                    }*/
-                  });
-                },
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                borderColor: Colors.black,
-                selectedColor: Color(0xFFd2ac67),
-                fillColor: Colors.black,
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-               /* selectedBorderColor: Colors.red[700],
-                selectedColor: Colors.white,
-                fillColor: Colors.red[200],
-                color: Colors.red[400],*/
-                constraints: const BoxConstraints(
-                  minHeight: 40.0,
-                  minWidth: 80.0,
-                ),
-                isSelected: selectedYesNoOptions,
-                children: yesNoOptions,
-              ),*/
                           ToggleSwitch(
                             cornerRadius: 20.0,
                             activeFgColor: Color(0xFFd2ac67),
@@ -625,8 +647,8 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                           ),
                         ]
                         )
-                    ),
-                    FutureBuilder<Widget>(
+                    ),*/
+                   /* FutureBuilder<Widget>(
                       future: buildRatingViews(),
                       builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                         if (snapshot.hasError) {
@@ -637,7 +659,7 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                           child: snapshot.data,
                         ) : Container();
                       },
-                    ),
+                    ),*/
                   ],
                 )))));
   }

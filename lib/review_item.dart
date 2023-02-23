@@ -17,7 +17,7 @@ class _ReviewItemState extends State<ReviewItem> {
       Row(children: [
         Text(widget.review.user!)
       ],),
-      Text(widget.review.review!, style: TextStyle(fontStyle: FontStyle.italic))
+      Text(widget.review.review!, style: TextStyle(fontStyle: FontStyle.italic, color: Color(0xFFd2ac67)))
     ],);
   }
 }

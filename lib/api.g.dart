@@ -38,13 +38,14 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       image: json['image'] as String?,
       tasting_id: json['tasting_id'] as int?,
       overall: json['overall'] as String?,
-      criterias: (json['criterias'] as List<dynamic>)
-          .map((e) => Criteria.fromJson(e as Map<String, dynamic>))
+      criterias: (json['criterias'] as List<dynamic>?)
+          ?.map((e) => Criteria.fromJson(e as Map<String, dynamic>))
           .toList(),
       ratings: Map<String, int>.from(json['ratings'] as Map),
       ratingInfo: Map<String, String>.from(json['ratingInfo'] as Map),
     )
       ..description = json['description'] as String?
+      ..review = json['review'] as String?
       ..manufacturer = json['manufacturer'] as String?
       ..country = json['country'] as String?
       ..category = json['category'] == null
@@ -58,6 +59,7 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'name': instance.name,
       'barcode': instance.barcode,
       'description': instance.description,
+      'review': instance.review,
       'manufacturer': instance.manufacturer,
       'country': instance.country,
       'image': instance.image,
@@ -129,13 +131,16 @@ ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
       success: json['success'] as bool,
       message: json['message'] as String,
       overall: json['overall'] as String?,
-    );
+    )..product = json['product'] == null
+        ? null
+        : Product.fromJson(json['product'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ProductResponseToJson(ProductResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
       'success': instance.success,
       'overall': instance.overall,
+      'product': instance.product,
     };
 
 // **************************************************************************

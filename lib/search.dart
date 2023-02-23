@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:event_bus/event_bus.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -14,7 +14,6 @@ import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'constants.dart' as Constants;
 import 'events.dart';
 
-EventBus eventBus = EventBus();
 
 class SearchWidget extends StatefulWidget {
   const SearchWidget({Key? key, required this.client}) : super(key: key);
@@ -43,7 +42,6 @@ class _SearchWidgetState extends State<SearchWidget> {
     super.initState();
 
     eventBus.on<UpdateItemEvent>().listen((event) {
-      print(product!.overall);
       print('product!.overall');
       setState(() {
         product!.overall = event.item.overall;

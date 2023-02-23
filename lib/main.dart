@@ -21,10 +21,7 @@ import 'package:preload_page_view/preload_page_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'constants.dart' as Constants;
 import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
-import 'package:event_bus/event_bus.dart';
 import 'events.dart';
-
-EventBus eventBus = EventBus();
 
 late SharedPreferences prefs;
 
@@ -114,6 +111,9 @@ class MyApp extends StatelessWidget {
               color: Color(0xFFd2ac67), // <-- TextFormField input color
             ),
             headlineMedium: TextStyle(color: Colors.white),
+           headlineSmall: ThemeData.dark().textTheme.headlineSmall?.copyWith(
+             color: Color(0xFFd2ac67), // <-- TextFormField input color
+           ),
           ),
           inputDecorationTheme: InputDecorationTheme(
               focusedBorder: const OutlineInputBorder(
@@ -348,6 +348,7 @@ class _MyHomePageState extends State<MyHomePage> {
         SharedPreferences.getInstance().then((prefValue) =>
             setState(() {
               prefValue.setString("token", value.accessToken);
+              prefValue.setString("role", value.role);
               globals.role = value.role;
               prefValue.setBool("signedIn", true);
             })
@@ -399,13 +400,23 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
+    if(prefValue.containsKey("role")) {
+      setState(() {
+        globals.role = prefValue.getString("role")!;
+        print(globals.role);
+      });
+    }
+
     token = prefValue.getString("token").toString();
-    print('token');
+    print('token--');
     print(token);
     if(token == null) {
-      signedIn = false;
+      setState(() {
+        signedIn = false;
+      });
       apiLogin();
     }
+
     eventBus.on<UpdateItemEvent>().listen((event) {
       setState(() {
         loaded[event.index] = event.item;
@@ -414,7 +425,6 @@ class _MyHomePageState extends State<MyHomePage> {
   });
 
     HttpOverrides.global = MyHttpOverrides();
-
 
     _googleSignIn.onCurrentUserChanged.listen((account) {
       print('USER_CHANGED');
@@ -436,7 +446,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
 
-    _googleSignIn.signInSilently();
+
     print('SILENT');
 
     setState(() {
@@ -450,6 +460,20 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     });
 
+    signInSilent();
+  }
+
+
+  void signInSilent() async {
+    if(provider == "google") {
+      _googleSignIn.signInSilently().then((value) {
+        if (value == null) {
+          setState(() {
+            signedIn = false;
+          });
+        }
+      });
+    }
   }
 
   Future<List> loadData() async {
@@ -505,10 +529,10 @@ class _MyHomePageState extends State<MyHomePage> {
     print("LOGOUT");
     client.logout();
 
-    //if(provider == "google")
+    if(provider == "google")
       return _googleSignIn.signOut();
-    /*else
-      return facebookSignIn.logOut();*/
+    else
+      return FacebookAuth.instance.logOut();
   }
 
   Future<void> _updateLoginInfo() async {

@@ -44,6 +44,7 @@ abstract class RestClient {
       @Part() String barcode,
       @Part() String manufacturer,
       @Part() String description,
+      //@Part() String? review,
       @Part() String country,
       @Part() Map<String,int> ratings,
       @Part() Map<String,String> ratingInfo,
@@ -103,6 +104,7 @@ class Product {
   String? name;
   String? barcode;
   String? description;
+  String? review;
   String? manufacturer;
   String? country;
   String? image;
@@ -110,7 +112,7 @@ class Product {
 
   Category? category;
 
-  late List<Criteria> criterias;
+  late List<Criteria>? criterias;
 
   //late List<Rating> ratings;
   Map<String, int> ratings;
@@ -196,6 +198,7 @@ class ProductResponse {
   late String message;
   late bool success;
   late String? overall;
+  late Product? product;
 
   ProductResponse({required this.success, required this.message, this.overall});
 
