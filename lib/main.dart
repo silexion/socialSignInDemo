@@ -583,7 +583,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               title: const Text('Termék értékelése'),
               onTap: () {
-                throw Exception();
                 Navigator.pop(context);
                 Navigator.push(
                   context,
