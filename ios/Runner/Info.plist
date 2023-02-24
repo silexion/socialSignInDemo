@@ -67,6 +67,26 @@
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Photo library usage permission is required for uploading images.</string>
 		<key>UIStatusBarHidden</key>
+		<key>CFBundleURLTypes</key>
+        <array>
+          <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+              <string>fb1398168583987782</string>
+            </array>
+          </dict>
+        </array>
+		<key>FacebookAppID</key>
+        <string>1398168583987782</string>
+        <key>FacebookClientToken</key>
+        <string>0e93c94cace18dd3ce049e306d1267c2</string>
+        <key>FacebookDisplayName</key>
+        <string>Pontozz</string>
+        <key>LSApplicationQueriesSchemes</key>
+        <array>
+          <string>fbapi</string>
+          <string>fb-messenger-share-api</string>
+        </array>
 		<false/>
 	</dict>
 </plist>
