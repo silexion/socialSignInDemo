@@ -583,7 +583,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               title: const Text('Termék értékelése'),
               onTap: () {
-                FirebaseCrashlytics.instance.crash();
+                throw Exception();
                 Navigator.pop(context);
                 Navigator.push(
                   context,
