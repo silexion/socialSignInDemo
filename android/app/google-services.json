@@ -53,6 +53,13 @@
             {
               "client_id": "352189617145-jodlj1n6bp8fbpdgod4o3f0bn3kfl8gn.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "352189617145-sqoq2uj8qe5t1dibimkej94s3i94j259.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.parkmobil.pontozz"
+              }
             }
           ]
         }

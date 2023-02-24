@@ -22,6 +22,9 @@ import 'package:transparent_image/transparent_image.dart';
 import 'constants.dart' as Constants;
 import 'package:shared_preferences/shared_preferences.dart' show SharedPreferences;
 import 'events.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'firebase_options.dart';
 
 late SharedPreferences prefs;
 
@@ -43,6 +46,9 @@ void main() async {
   }
 
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(MyApp());
@@ -300,7 +306,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //static final FacebookLogin facebookSignIn = new FacebookLogin();
   late GoogleSignInAccount? _currentUser;
   String? token;
-  late String provider;
+  String provider = "facebook";
   var signedIn = true;
   late Future<List>? _future = null;
   late RestClient client;
@@ -577,6 +583,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               title: const Text('Termék értékelése'),
               onTap: () {
+                FirebaseCrashlytics.instance.crash();
                 Navigator.pop(context);
                 Navigator.push(
                   context,
