@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:magic_text/magic_text.dart';
 import 'package:pontozz/tastings.dart';
@@ -49,8 +50,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(MyApp());
 }
 
@@ -306,8 +307,8 @@ class _MyHomePageState extends State<MyHomePage> {
   //static final FacebookLogin facebookSignIn = new FacebookLogin();
   late GoogleSignInAccount? _currentUser;
   String? token;
-  String provider = "facebook";
-  var signedIn = true;
+  String provider = "";
+  var signedIn = false;
   late Future<List>? _future = null;
   late RestClient client;
   ScrollController _controller = ScrollController(initialScrollOffset: 0.0, keepScrollOffset: true);
@@ -349,7 +350,6 @@ class _MyHomePageState extends State<MyHomePage> {
       print(socialToken);
       print(provider);
       client.login(socialToken, provider).then((value) {
-
         print(value);
         SharedPreferences.getInstance().then((prefValue) =>
             setState(() {
@@ -413,14 +413,23 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
+    if(prefValue.containsKey("provider")) {
+      setState(() {
+        provider = prefValue.getString("provider")!;
+      });
+    }
+
     token = prefValue.getString("token").toString();
-    print('token--');
-    print(token);
-    if(token == null) {
+
+    print('token: ' + token.toString());
+    print('prodiver: ' + provider.toString());
+
+    if(token == null || provider == "") {
       setState(() {
         signedIn = false;
+        FlutterNativeSplash.remove();
       });
-      apiLogin();
+      //apiLogin();
     }
 
     eventBus.on<UpdateItemEvent>().listen((event) {
@@ -428,6 +437,8 @@ class _MyHomePageState extends State<MyHomePage> {
         loaded[event.index] = event.item;
       });
     });
+
+    signInSilent();
   });
 
     HttpOverrides.global = MyHttpOverrides();
@@ -435,25 +446,27 @@ class _MyHomePageState extends State<MyHomePage> {
     _googleSignIn.onCurrentUserChanged.listen((account) {
       print('USER_CHANGED');
       print(account);
-
+      _currentUser = account;
       if(account != null) {
         setState(() {
           provider = "google";
-          _currentUser = account;
           apiLogin();
           _future = loadData();
           signedIn = true;
+          FlutterNativeSplash.remove();
         });
       } else {
         setState(() {
-          _currentUser = account;
           signedIn = false;
+          provider = "";
+          FlutterNativeSplash.remove();
         });
       }
+
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setString("provider", provider);
+      });
     });
-
-
-    print('SILENT');
 
     setState(() {
       SharedPreferences.getInstance().then((prefValue) {
@@ -465,20 +478,25 @@ class _MyHomePageState extends State<MyHomePage> {
         _future = loadData();
       });
     });
-
-    signInSilent();
   }
 
 
   void signInSilent() async {
     if(provider == "google") {
       _googleSignIn.signInSilently().then((value) {
+
         if (value == null) {
           setState(() {
             signedIn = false;
           });
         }
+
+        setState(() {
+          FlutterNativeSplash.remove();
+        });
       });
+    } else {
+      FlutterNativeSplash.remove();
     }
   }
 
@@ -512,6 +530,9 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         provider = "facebook";
         this.token = accessToken.token;
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setString("provider", provider);
+        });
       });
       apiLogin();
     } else {
