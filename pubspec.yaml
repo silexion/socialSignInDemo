@@ -36,17 +36,17 @@ dependencies:
   dropdown_button2: ^1.4.0
   simple_fontellico_progress_dialog: ^0.3.0
   permission_handler: ^10.2.0
-  #flutter_barcode_scanner:
-   # git:
-    #  url: https://github.com/appsol1/flutter_barcode_scanner
-     # ref: master
+  flutter_barcode_scanner:
+    git:
+      url: https://github.com/appsol1/flutter_barcode_scanner
+      ref: master
   flutter_cache_manager: ^3.3.0
   flutter_typeahead: ^4.3.3
   flutter_svg: ^1.1.6
   infinite_scroll_pagination: ^3.2.0
   magic_text: ^0.0.2
   flutter_native_splash: ^2.2.16
-  simple_barcode_scanner: ^0.0.8
+  #simple_barcode_scanner: ^0.0.8
   photo_view: ^0.14.0
   firebase_crashlytics: ^3.0.15
   firebase_core: ^2.7.0

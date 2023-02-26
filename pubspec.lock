@@ -335,12 +335,13 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_barcode_scanner:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      name: flutter_barcode_scanner
-      sha256: a4ba37daf9933f451a5e812c753ddd045d6354e4a3280342d895b07fecaab3fa
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "4ee2c2cafa516151d1a3f4d67b8469b5545e5829"
+      url: "https://github.com/appsol1/flutter_barcode_scanner"
+    source: git
     version: "2.0.0"
   flutter_blurhash:
     dependency: transitive
@@ -1056,14 +1057,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
-  simple_barcode_scanner:
-    dependency: "direct main"
-    description:
-      name: simple_barcode_scanner
-      sha256: "2549a5a1426e2e3edb4fa2cd876fcf8463e09220cd36b5207742bc53e1d10fa6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.8"
   simple_fontellico_progress_dialog:
     dependency: "direct main"
     description:
@@ -1261,14 +1254,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
-  webview_windows:
-    dependency: transitive
-    description:
-      name: webview_windows
-      sha256: a6d76f9f020e638c2e5417f473e2907c097d1fe3eac8bd4be7517bc3a0df6b86
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.2"
   win32:
     dependency: transitive
     description:

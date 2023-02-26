@@ -2,6 +2,7 @@ import 'dart:io';
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -9,7 +10,6 @@ import 'package:pontozz/api.dart';
 import 'package:pontozz/full_screen_image.dart';
 import 'package:pontozz/product_rating_view.dart';
 import 'package:pontozz/review_item.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'constants.dart' as Constants;
 import 'events.dart';
@@ -234,27 +234,27 @@ class _SearchWidgetState extends State<SearchWidget> {
               ),
             ),
             IconButton(icon: Icon(Icons.camera, size: 30), onPressed: () async {
-              /*Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+              Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                   "#000000",
                   "Mégse",
                   true,
                   ScanMode.DEFAULT);
 
-              String barcode = await FlutterBarcodeScanner.scanBarcode(
+              /*String barcode = await FlutterBarcodeScanner.scanBarcode(
                   "#000000",
                   "Mégse",
                   true,
                   ScanMode.DEFAULT );*/
-              var res = await Navigator.push(
+              /*var res = await Navigator.push(
               context,
                 MaterialPageRoute(
                 builder: (context) => const SimpleBarcodeScannerPage(),
                 ));
                 setState(() {
                   if (res is String) {
-                    String barcode = res;
+                    String barcode = res;*/
 
-                    //var barcode = barcodeScanRes["data"].toString();
+                    var barcode = barcodeScanRes["data"].toString();
                     barcodeController.text = "";
                     if(barcode.length > 0) {
 
@@ -272,7 +272,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                       });
                     }) ;
                     }
-              }});
+              //}});
             })
             ]
            )

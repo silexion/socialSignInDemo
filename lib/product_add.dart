@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -10,7 +11,6 @@ import 'package:pontozz/api.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:pontozz/full_screen_image.dart';
 import 'package:pontozz/product_rating_view.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:toggle_switch/toggle_switch.dart';
@@ -373,30 +373,26 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                               context,
                               MaterialPageRoute(builder: (context) => BarcodeScanner()),
                             );*/
-                            /*Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                            Map barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                 "#000000",
                 "Mégse",
                 true,
-                ScanMode.DEFAULT );*/
+                ScanMode.DEFAULT );
 
-                            var res = await Navigator.push(
+                           /* var res = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const SimpleBarcodeScannerPage(),
                                 ));
                             setState(() {
                               if (res is String) {
-                                String barcode = res;
+                                String barcode = res;*/
 
 
-                                /*            String barcode = await FlutterBarcodeScanner.scanBarcode(
-                "#000000",
-                "Mégse",
-                true,
-                ScanMode.DEFAULT );*/
 
-                                //var barcode = barcodeScanRes["data"].toString();
-                                //var type = barcodeScanRes["type"].toString();
+                                var barcode = barcodeScanRes["data"].toString();
+                                var type = barcodeScanRes["type"].toString();
+
                                 barcodeController.text = barcode;
                                 if (barcode.length > 0) {
                                   widget.client.getProductByBarcode(barcode)
@@ -410,8 +406,7 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                                     });
                                   });
                                 }
-                              }
-                            });
+                            //});
                           })
                         ]
                     ),
