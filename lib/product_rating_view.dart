@@ -1,6 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:magic_text/magic_text.dart';
 import 'package:pontozz/api.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pontozz/events.dart';
@@ -28,7 +29,6 @@ class ProductRatingView extends StatefulWidget {
     return ProductRatingViewState();
   }
 }
-
 
 
 class ProductRatingViewState extends State<ProductRatingView> {
@@ -77,11 +77,23 @@ class ProductRatingViewState extends State<ProductRatingView> {
           }
         },
       ));
-      list.add(Text(criteriaOptions[criterias[i].id!] != null ? criteriaOptions[criterias[i].id!].toString() : "",
+
+      list.add(
+        MagicText(criteriaOptions[criterias[i].id!] != null ? criteriaOptions[criterias[i].id!].toString() : "",
+          breakWordCharacter: '-',
+          minFontSize: 12,
+          maxFontSize: 16,
+          textStyle: TextStyle(
+              color: Color(0xFFd2ac67),
+              fontSize: 16), smartSizeMode: true, asyncMode: true,
+        )
+      );
+
+      /*list.add(Text(criteriaOptions[criterias[i].id!] != null ? criteriaOptions[criterias[i].id!].toString() : "",
         maxLines: 1,
         softWrap: false,
         overflow: TextOverflow.fade,
-          style: TextStyle(color: Color(0xFFd2ac67))));
+          style: TextStyle(color: Color(0xFFd2ac67))));*/
     }
     return new Column(children: list);
   }
@@ -123,17 +135,18 @@ class ProductRatingViewState extends State<ProductRatingView> {
             Navigator.of(context).pop();
         },
     )),
-    body: SingleChildScrollView(
-    child: Stack(
+    body: Stack(
     children: <Widget>[
-      Container(alignment: Alignment.topCenter,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(Constants.IMAGE_URL + widget.data.image.toString()),
-            colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.8), BlendMode.modulate),
-            fit: BoxFit.cover,
-          ),
+      Positioned.fill(  //
+        child: Image(
+          image: CachedNetworkImageProvider(Constants.IMAGE_URL + widget.data.image.toString()),
+          //colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.8), BlendMode.modulate),
+          fit: BoxFit.fill,
         ),
+      ),
+    SingleChildScrollView(
+    child:
+    Container(alignment: Alignment.topCenter,
         child:
     Column(children: [
     Padding(
@@ -247,6 +260,7 @@ class ProductRatingViewState extends State<ProductRatingView> {
                           widget.client.sendRating(widget.data).then((value) {
                             //Navigator.of(context).pop();
                             setState(() {
+                              widget.data.overall = value.overall;
                               if (widget.pageController != null) {
                                 eventBus.fire(UpdateItemEvent(widget.data,
                                     widget.pageController!.page!.toInt()));
@@ -254,7 +268,6 @@ class ProductRatingViewState extends State<ProductRatingView> {
                                     duration: Duration(milliseconds: 300),
                                     curve: Curves.ease);
                               } else {
-                                widget.data.overall = value.overall;
                                 eventBus.fire(UpdateItemEvent(widget.data, 0));
                                 Navigator.of(context).pop();
                               }
@@ -269,7 +282,7 @@ class ProductRatingViewState extends State<ProductRatingView> {
           ]
       )))),
       ],
-    ))])));
+    )))]));
   }
 }
 

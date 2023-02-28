@@ -15,6 +15,7 @@ import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:toggle_switch/toggle_switch.dart';
 import 'constants.dart' as Constants;
+import 'events.dart';
 import 'globals.dart' as globals;
 
 class ProductAddWidget extends StatefulWidget {
@@ -280,7 +281,6 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
                   );
 
                   saveFuture.then((value) async {
-                    print(value.product);
                     _dialog.hide();
                     if(value.success) {
                       await showDialog<void>(

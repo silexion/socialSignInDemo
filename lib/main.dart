@@ -433,6 +433,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     eventBus.on<UpdateItemEvent>().listen((event) {
+      print('event.index');
+      print(event.index);
       setState(() {
         loaded[event.index] = event.item;
       });

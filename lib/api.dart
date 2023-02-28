@@ -179,8 +179,9 @@ class Review {
   int? id;
   String? review;
   String? user;
+  int? score;
 
-  Review({this.id, this.review, this.user});
+  Review({this.id, this.review, this.user, this.score});
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
 

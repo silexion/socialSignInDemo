@@ -118,12 +118,14 @@ Review _$ReviewFromJson(Map<String, dynamic> json) => Review(
       id: json['id'] as int?,
       review: json['review'] as String?,
       user: json['user'] as String?,
+      score: json['score'] as int?,
     );
 
 Map<String, dynamic> _$ReviewToJson(Review instance) => <String, dynamic>{
       'id': instance.id,
       'review': instance.review,
       'user': instance.user,
+      'score': instance.score,
     };
 
 ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
