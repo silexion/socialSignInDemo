@@ -84,6 +84,12 @@
 @import sqflite;
 #endif
 
+#if __has_include(<the_apple_sign_in/TheAppleSignInPlugin.h>)
+#import <the_apple_sign_in/TheAppleSignInPlugin.h>
+#else
+@import the_apple_sign_in;
+#endif
+
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
@@ -100,6 +106,7 @@
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
   [SharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"SharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
+  [TheAppleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"TheAppleSignInPlugin"]];
 }
 
 @end

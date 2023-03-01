@@ -18,6 +18,7 @@ import 'package:pontozz/product_rating_view.dart';
 import 'package:pontozz/search.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:the_apple_sign_in/the_apple_sign_in.dart' hide ButtonStyle;
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'constants.dart' as Constants;
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(
         useMaterial3: true,
 
-         /* colorSchemeSeed: Colors.indigo,
+        /* colorSchemeSeed: Colors.indigo,
 
         //primarySwatch: Colors.indigo,
         hintColor: Colors.grey,
@@ -102,33 +103,33 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black*/
       ).copyWith(
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.black,
+            backgroundColor: Colors.black,
             titleTextStyle: TextStyle(
-                    color: Color(0xFFd2ac67),
-                    fontFamily: 'Boxed',
-                    fontSize: 20.0
-                )
+                color: Color(0xFFd2ac67),
+                fontFamily: 'Boxed',
+                fontSize: 20.0
+            )
         ),
-         textTheme: ThemeData.dark().textTheme.copyWith(
-           labelMedium: ThemeData.dark().textTheme.labelMedium?.copyWith(
-             color: Color(0xffa8a8a8),
-             fontSize: 16
-           ),
-           titleMedium: ThemeData.dark().textTheme.titleMedium?.copyWith(
-              color: Color(0xFFd2ac67), // <-- TextFormField input color
+        textTheme: ThemeData.dark().textTheme.copyWith(
+          labelMedium: ThemeData.dark().textTheme.labelMedium?.copyWith(
+              color: Color(0xffa8a8a8),
+              fontSize: 16
+          ),
+          titleMedium: ThemeData.dark().textTheme.titleMedium?.copyWith(
+            color: Color(0xFFd2ac67), // <-- TextFormField input color
+          ),
+          headlineMedium: TextStyle(color: Colors.white),
+          headlineSmall: ThemeData.dark().textTheme.headlineSmall?.copyWith(
+            color: Color(0xFFd2ac67), // <-- TextFormField input color
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+            focusedBorder: const OutlineInputBorder(
+              // width: 0.0 produces a thin "hairline" border
+              borderSide: const BorderSide(color: Colors.grey, width: 2.0),
             ),
-            headlineMedium: TextStyle(color: Colors.white),
-           headlineSmall: ThemeData.dark().textTheme.headlineSmall?.copyWith(
-             color: Color(0xFFd2ac67), // <-- TextFormField input color
-           ),
-          ),
-          inputDecorationTheme: InputDecorationTheme(
-              focusedBorder: const OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                borderSide: const BorderSide(color: Colors.grey, width: 2.0),
-              ),
-              contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8)
-          ),
+            contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8)
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           //style: ElevatedButton.styleFrom(onPrimary: Colors.white)
           //this themedata controls the
@@ -206,62 +207,62 @@ class ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Card(
-          elevation: 2,
-          margin: const EdgeInsets.symmetric(
-              horizontal: 8.0, vertical: 4.0),
-          child: Material(
-              color: Colors.white.withOpacity(0.0),
-          child : InkWell(
-            splashColor: Colors.black12,
-            radius: 100,
-              borderRadius: BorderRadius.circular(8),
-            // When the user taps the button, show a snackbar.
-              onTap: () {
-                if(widget.tasting != null && widget.tasting!.status == 0) return;
+        child: Card(
+            elevation: 2,
+            margin: const EdgeInsets.symmetric(
+                horizontal: 8.0, vertical: 4.0),
+            child: Material(
+                color: Colors.white.withOpacity(0.0),
+                child : InkWell(
+                    splashColor: Colors.black12,
+                    radius: 100,
+                    borderRadius: BorderRadius.circular(8),
+                    // When the user taps the button, show a snackbar.
+                    onTap: () {
+                      if(widget.tasting != null && widget.tasting!.status == 0) return;
 
-                pageNum = widget.items.indexOf(widget.item);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>
-                        PreloadPageView.builder(
-                          itemCount: widget.items.length,
-                          itemBuilder: (BuildContext context, int position) {
-                            var item = widget.items[position];
-                            if(widget.tasting != null)
-                              item.tasting_id = widget.tasting!.id;
-                            print('position');
-                            print(item.tasting_id);
-                            return ProductRatingView(
-                              data: item, pageController: pageController, client: widget.client, updateProduct: (item){updateItem(item);}, prevProduct: widget.prevItem);
-                          },
-                          onPageChanged: (int position) {
-                            setState(() {
-                             pageNum = position;
-                            });
-                            print('page'+position.toString());
-                          },
-                          preloadPagesCount: 3,
-                          controller: pageController,
-                      )));
-              },
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                    children: <Widget>[
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: FadeInImage.memoryNetwork(
-                              fadeInDuration: Duration(milliseconds: 300),
-                              placeholder: kTransparentImage,
-                              image: Constants.IMAGE_URL + "thumbs/" + widget.item.image.toString(),
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover
-                          )),
-                      Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          /*Text(widget.item.name.toString() ,
+                      pageNum = widget.items.indexOf(widget.item);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) =>
+                              PreloadPageView.builder(
+                                itemCount: widget.items.length,
+                                itemBuilder: (BuildContext context, int position) {
+                                  var item = widget.items[position];
+                                  if(widget.tasting != null)
+                                    item.tasting_id = widget.tasting!.id;
+                                  print('position');
+                                  print(item.tasting_id);
+                                  return ProductRatingView(
+                                      data: item, pageController: pageController, client: widget.client, updateProduct: (item){updateItem(item);}, prevProduct: widget.prevItem);
+                                },
+                                onPageChanged: (int position) {
+                                  setState(() {
+                                    pageNum = position;
+                                  });
+                                  print('page'+position.toString());
+                                },
+                                preloadPagesCount: 3,
+                                controller: pageController,
+                              )));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                          children: <Widget>[
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(5.0),
+                                child: FadeInImage.memoryNetwork(
+                                    fadeInDuration: Duration(milliseconds: 300),
+                                    placeholder: kTransparentImage,
+                                    image: Constants.IMAGE_URL + "thumbs/" + widget.item.image.toString(),
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover
+                                )),
+                            Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                  /*Text(widget.item.name.toString() ,
                             maxLines: 3,
                             softWrap: true,
                             style: TextStyle(
@@ -269,36 +270,36 @@ class ItemState extends State<Item> {
                                 fontSize: 16)
                           )*/
 
-                            MagicText(widget.item.name.toString(),
-                              breakWordCharacter: '-',
-                              minFontSize: 12,
-                              maxFontSize: 16,
-                              textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16), smartSizeMode: true, asyncMode: true,
-                            ),
+                                  MagicText(widget.item.name.toString(),
+                                    breakWordCharacter: '-',
+                                    minFontSize: 12,
+                                    maxFontSize: 16,
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16), smartSizeMode: true, asyncMode: true,
+                                  ),
 
-              Row(
-                  children: <Widget>[
-                          widget.item.ratings['0'] != null ? RatingBarIndicator(
-                              rating: widget.item.ratings['0'] != null ? widget.item.ratings['0']!.toDouble() : 0,
-                              itemBuilder: (context, index) => Icon(
-                                Icons.star,
-                                color: Color(0xFFd2ac67),
-                              ),
-                              itemCount: 5,
-                              itemSize: 20.0,
-                            ) : Text("Még nem értékelted", style: TextStyle(
-                                color: Colors.grey)),
+                                  Row(
+                                      children: <Widget>[
+                                        widget.item.ratings['0'] != null ? RatingBarIndicator(
+                                          rating: widget.item.ratings['0'] != null ? widget.item.ratings['0']!.toDouble() : 0,
+                                          itemBuilder: (context, index) => Icon(
+                                            Icons.star,
+                                            color: Color(0xFFd2ac67),
+                                          ),
+                                          itemCount: 5,
+                                          itemSize: 20.0,
+                                        ) : Text("Még nem értékelted", style: TextStyle(
+                                            color: Colors.grey)),
+                                      ]),
+                                  Text(widget.tasting!= null && widget.tasting!.status == 1 ? "" : widget.item.overall.toString())
+                                ]
+                                )),
+                            //Text(event.value['date'] + ", " + event.value['location'])
                           ]),
-                            Text(widget.tasting!= null && widget.tasting!.status == 1 ? "" : widget.item.overall.toString())
-                          ]
-                          )),
-                      //Text(event.value['date'] + ", " + event.value['location'])
-                    ]),
-              )
+                    )
 
-          )))
+                )))
     );
   }
 }
@@ -399,49 +400,49 @@ class _MyHomePageState extends State<MyHomePage> {
     print("CHANGE");
     SharedPreferences.getInstance().then((prefValue) {
 
-    if(prefValue.containsKey("signedIn")) {
-      setState(() {
-        signedIn = prefValue.getBool("signedIn")!;
-        print(signedIn.toString());
+      if(prefValue.containsKey("signedIn")) {
+        setState(() {
+          signedIn = prefValue.getBool("signedIn")!;
+          print(signedIn.toString());
+        });
+      }
+
+      if(prefValue.containsKey("role")) {
+        setState(() {
+          globals.role = prefValue.getString("role")!;
+          print(globals.role);
+        });
+      }
+
+      if(prefValue.containsKey("provider")) {
+        setState(() {
+          provider = prefValue.getString("provider")!;
+        });
+      }
+
+      token = prefValue.getString("token").toString();
+
+      print('token: ' + token.toString());
+      print('prodiver: ' + provider.toString());
+
+      if(token == null || provider == "") {
+        setState(() {
+          signedIn = false;
+          FlutterNativeSplash.remove();
+        });
+        //apiLogin();
+      }
+
+      eventBus.on<UpdateItemEvent>().listen((event) {
+        print('event.index');
+        print(event.index);
+        setState(() {
+          loaded[event.index] = event.item;
+        });
       });
-    }
 
-    if(prefValue.containsKey("role")) {
-      setState(() {
-        globals.role = prefValue.getString("role")!;
-        print(globals.role);
-      });
-    }
-
-    if(prefValue.containsKey("provider")) {
-      setState(() {
-        provider = prefValue.getString("provider")!;
-      });
-    }
-
-    token = prefValue.getString("token").toString();
-
-    print('token: ' + token.toString());
-    print('prodiver: ' + provider.toString());
-
-    if(token == null || provider == "") {
-      setState(() {
-        signedIn = false;
-        FlutterNativeSplash.remove();
-      });
-      //apiLogin();
-    }
-
-    eventBus.on<UpdateItemEvent>().listen((event) {
-      print('event.index');
-      print(event.index);
-      setState(() {
-        loaded[event.index] = event.item;
-      });
+      signInSilent();
     });
-
-    signInSilent();
-  });
 
     HttpOverrides.global = MyHttpOverrides();
 
@@ -514,8 +515,8 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       Response response = await dio.post("https://pontozz.nextstep.hu/api/login",
           data: data, onSendProgress: (count, total) {
-        print("Count:" + count.toString());
-      });
+            print("Count:" + count.toString());
+          });
       print(response.data);
     } on DioError catch (e) {
       print(e.response);
@@ -651,12 +652,12 @@ class _MyHomePageState extends State<MyHomePage> {
               loaded = snapshot.data;
 
               return ListView.builder(
-                physics: ClampingScrollPhysics(),
-                itemCount: loaded.length,
-                controller: _controller,
-                itemBuilder: (context, int i) {
-                  return new Item(items: loaded, item: loaded[i], client: client, nextItem: (i){nextItem(i);}, prevItem: (i){prevItem(i);}, tasting: null) ;
-                }
+                  physics: ClampingScrollPhysics(),
+                  itemCount: loaded.length,
+                  controller: _controller,
+                  itemBuilder: (context, int i) {
+                    return new Item(items: loaded, item: loaded[i], client: client, nextItem: (i){nextItem(i);}, prevItem: (i){prevItem(i);}, tasting: null) ;
+                  }
               );
             }
             return Container();
@@ -676,7 +677,7 @@ class _MyHomePageState extends State<MyHomePage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0)),
               padding: EdgeInsets.all(20.0),
-              onPressed: () => _handleSignIn(),
+              onPressed: () => _handleGoogleSignIn(),
               elevation: 5,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -713,18 +714,86 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            child: MaterialButton(
+              color: Colors.black,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              padding: EdgeInsets.all(20.0),
+              onPressed: () => _handleAppleSignIn(),
+              elevation: 5,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.apple, color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text("Bejelentkezés Apple fiókkal"),
+                  ),
+                ],
+              ),
+            ),
+          ),
           SizedBox(height: 20)
         ],
       )),
     );
   }
 
-  Future<void> _handleSignIn() async {
+  Future<void> _handleGoogleSignIn() async {
     try {
       _googleSignIn.isSignedIn().then((value) async {
         if(value) _googleSignIn.signOut();
         await _googleSignIn.signIn();
       });
+
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _handleAppleSignIn() async {
+    try {
+      final AuthorizationResult result = await TheAppleSignIn.performRequests([
+        AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+      ]);
+
+      switch (result.status) {
+        case AuthorizationStatus.authorized:
+
+          setState(() {
+            provider = "apple";
+            this.token = result.credential!.identityToken.toString();
+            SharedPreferences.getInstance().then((prefs) {
+              prefs.setString("provider", provider);
+            });
+          });
+          apiLogin();
+          break;
+        case AuthorizationStatus.error:
+          print("Sign in failed: ${result.error!.localizedDescription}");
+          break;
+
+        case AuthorizationStatus.cancelled:
+          print('User cancelled');
+          break;
+      }
+      /*final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        webAuthenticationOptions: WebAuthenticationOptions(
+          clientId:
+          'com.parkmobil.pontozz.auth',
+          redirectUri:
+          Uri.parse(
+            'https://pontozz.nextstep.hu',
+          ),
+        ),
+      );*/
 
     } catch (error) {
       print(error);

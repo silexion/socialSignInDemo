@@ -1,7 +1,19 @@
 String role = "user";
 
+bool validateBarcode(String barcode) {
+
+  return true;
+}
+
 String countryFromBArcode(String barcode, String type) {
-  int n = int.parse(barcode.substring(0,3));
+
+  int n;
+  try {
+    n = int.parse(barcode.substring(0, 3));
+  } catch(e) {
+    return '';
+  }
+
   var c = 'Magyarország';
 
   switch (n) {

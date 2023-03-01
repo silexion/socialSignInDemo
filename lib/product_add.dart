@@ -391,7 +391,21 @@ class _ProductAddWidgetState extends State<ProductAddWidget> {
 
 
                                 var barcode = barcodeScanRes["data"].toString();
-                                var type = barcodeScanRes["type"].toString();
+                                var type = barcodeScanRes["format"].toString();
+                                print(type);
+
+                                if(type == "UNKNOWN" || barcode.length < 8) {
+                                  Fluttertoast.showToast(
+                                      msg: "Nem megfelelő vonalkód. Próbáld újra.",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.deepOrange,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0
+                                  );
+                                  return;
+                                }
 
                                 barcodeController.text = barcode;
                                 if (barcode.length > 0) {
