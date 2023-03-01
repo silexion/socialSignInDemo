@@ -36,7 +36,8 @@ class _TastingsState extends State<Tastings> {
           future: _loadData(),
           builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) =>
           snapshot.hasData
-              ? ListView.builder(
+              ? snapshot.data!.length == 0 ? Text('Jelenleg nincs aktív kóstoló') :
+          ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (BuildContext context, index) =>  GestureDetector(
               onTap: () {

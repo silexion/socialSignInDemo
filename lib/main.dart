@@ -765,7 +765,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
           setState(() {
             provider = "apple";
-            this.token = result.credential!.identityToken.toString();
             SharedPreferences.getInstance().then((prefs) {
               prefs.setString("provider", provider);
             });

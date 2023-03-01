@@ -56,6 +56,10 @@ abstract class RestClient {
   @FormUrlEncoded()
   Future<User> login(@Field() String accessToken, @Field() String provider);
 
+  /*@POST("login")
+  @FormUrlEncoded()
+  Future<User> loginEmail(@Field() String email, @Field() String password);*/
+
   @POST("socialLogout")
   Future<String> logout();
 
